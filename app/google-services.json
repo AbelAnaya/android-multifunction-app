@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "704718358791",
+    "project_id": "fir-ui-148ef",
+    "storage_bucket": "fir-ui-148ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704718358791:android:fcd8dc90cbddf15b741da2",
+        "android_client_info": {
+          "package_name": "com.upm.pasproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704718358791-a7voc1p3932mj9juknhi1edqhv6hphg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx_dcZDm49fxerKR79mmi1ioI2pGtU_94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704718358791-a7voc1p3932mj9juknhi1edqhv6hphg5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
