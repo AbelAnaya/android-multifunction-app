@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
+
 enum ProviderType{
     BASIC
 }
@@ -23,16 +25,15 @@ public class LoggedUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_user);
-
         Intent intent = getIntent();
 
-        Log.d("LUA", "onCreate: provider for user: "+intent.getStringExtra("provider"));
+        Log.d("LUA", "onCreate: provider for user: " + intent.getStringExtra("provider"));
 
         // Setup
         setup(intent.getStringExtra("email"), intent.getStringExtra("provider"));
     }
 
-    private void setup(String email, String provider){
+    private void setup(String email, String provider) {
 
         setTitle("Logged Success");
 
@@ -42,17 +43,28 @@ public class LoggedUserActivity extends AppCompatActivity {
         emailTextView.setText(email);
         providerTextView.setText(provider);
 
-        Button logOut = (Button)findViewById(R.id.logOutButton);
+        Button logOut = (Button) findViewById(R.id.logOutButton);
 
-        logOut.setOnClickListener(logOutlistener);
+        logOut.setOnClickListener(logOutlistenerAnonymous);
 
     }
 
-    private View.OnClickListener logOutlistener = new View.OnClickListener() {
+
+    // Anonymous classes syntax declaration for View.OnClickListener
+    View.OnClickListener logOutlistenerAnonymous = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
             FirebaseAuth.getInstance().signOut();
             onBackPressed();
         }
     };
+
+    // Declaration of class logOutlistener that implements the interface View.OnClicklistener
+    public class logOutlistener implements View.OnClickListener {
+
+        public void onClick(View v) {
+            FirebaseAuth.getInstance().signOut();
+            onBackPressed();
+        }
+    }
 }
