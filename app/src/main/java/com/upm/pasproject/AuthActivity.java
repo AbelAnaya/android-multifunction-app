@@ -42,6 +42,19 @@ public class AuthActivity extends AppCompatActivity {
         initFirebaseCallbacks();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        // Reset password and email fields after restart (Comming back from Drawer activity)
+
+        EditText emailText = (EditText) findViewById(R.id.emailEditText);
+        EditText passwordText = (EditText) findViewById(R.id.passwordEditText);
+
+        emailText.setText("");
+        passwordText.setText("");
+    }
+
     private void initFirebaseCallbacks(){
 
         setTitle("Authentication");
@@ -114,7 +127,7 @@ public class AuthActivity extends AppCompatActivity {
 
         Log.d("SHOWNAME", "showHome: email: "+email+ " provider: "+provider);
 
-        Intent homeIntent = new Intent(this, LoggedUserActivity.class)
+        Intent homeIntent = new Intent(this, RestApi_Drawer.class)
                 .putExtra("email",email)
                 .putExtra("provider",provider.toString());
 
