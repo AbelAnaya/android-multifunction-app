@@ -1,11 +1,16 @@
 package com.upm.pasproject;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -26,10 +31,14 @@ public class RestApi_Drawer extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityRestApiDrawerBinding binding;
+    private String userEmailIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userEmailIntent = getIntent().getStringExtra("email");
 
         binding = ActivityRestApiDrawerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -75,6 +84,11 @@ public class RestApi_Drawer extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+
+        // Set text for user email in navigator
+        TextView userEmail = (TextView) findViewById(R.id.userEmail);
+        userEmail.setText(userEmailIntent);
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_rest_api_drawer);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
@@ -92,17 +106,34 @@ public class RestApi_Drawer extends AppCompatActivity {
         dialog.show();
     }
 
+    void exitAlert(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Log Out");
+        builder.setMessage("Are you sure you want to exit the application?");
+        builder.setPositiveButton("Yes",logOutListener);
+        builder.setNegativeButton("No",null);
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+    }
+
     DialogInterface.OnClickListener logOutListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             FirebaseAuth.getInstance().signOut();
-            onBackPressed();
+            startActivity(createIntentToAuth());
+            finish();
         }
     };
 
+    Intent createIntentToAuth(){
+        return new Intent(this, AuthActivity.class);
+    }
+
     void showHelp (){
 
-        // TODO: Explicar que hace cada opcion del desplegable en este alert
+        // TODO: Explicar que hace cada opcion del navigator en este alert
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Help");
@@ -113,4 +144,10 @@ public class RestApi_Drawer extends AppCompatActivity {
         dialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        //TODO: Detect when the user is going to exit the application
+    }
 }

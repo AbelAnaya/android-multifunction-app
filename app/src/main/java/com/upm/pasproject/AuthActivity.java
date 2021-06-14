@@ -133,5 +133,12 @@ public class AuthActivity extends AppCompatActivity {
 
         // Start Activity HOME
         startActivity(homeIntent);
+
+        // Finish current activity to not allow the user to go back to log in again without logging out
+        finish();
+
+        //TODO: Comprobar cuando el user esta logged in etc.
+        // Implementar que no sea necesario hacer logg in de nuevo si el usuario esta ya logado
+        // Shared Preferences??
     }
 }
