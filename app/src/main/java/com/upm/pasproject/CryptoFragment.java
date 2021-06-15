@@ -63,35 +63,6 @@ public class CryptoFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 });
 
-        /*CoinGeckoAPI.getInstance().listCoins("usd","market_cap_desc",
-                100,1,"false")
-                .enqueue(new Callback<List<Crypto>>() {
-            @Override
-            public void onResponse(Call<List<Crypto>> call, Response<List<Crypto>> response) {
-                List<Crypto> resultado = response.body();
-
-                List<HashMap<String,String>> datos = new ArrayList<>();
-                HashMap<String,String> hm = new HashMap<>();
-
-                for(Crypto coin:resultado) {
-                    hm.put("crypto", coin.getName()+" ("+coin.getSymbol().toUpperCase()+")");
-                    hm.put("value", coin.getCurrentPrice()+"$");
-                    hm.put("icon_url", coin.getImage());
-                    datos.add(hm);
-                }
-
-                updateUI();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Crypto>> call, Throwable t) {
-
-                Log.d("DBG",t.toString());
-
-            }
-        });*/
-
         return constraintLayout;
     }
 }
