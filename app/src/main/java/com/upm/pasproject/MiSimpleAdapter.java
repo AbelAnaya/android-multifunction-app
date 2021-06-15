@@ -48,10 +48,10 @@ public class MiSimpleAdapter extends SimpleAdapter {
         HashMap<String, String> dato = datos.get(position);
         vh.crypto.setText(dato.get("crypto"));
         vh.value.setText(dato.get("value"));
-        /*Picasso.get()
+        Picasso.get()
                 .load(dato.get("icon_url"))
                 .resize(150,150)
-                .into(vh.icon_url);*/
+                .into(vh.icon_url);
 
         return convertView;
     }
