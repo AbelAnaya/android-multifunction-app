@@ -40,16 +40,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".activitySensors" />
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".Activity2"
-            android:label="@string/title_activity_2"
-            android:theme="@style/Theme.PasProject.NoActionBar">
-        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
