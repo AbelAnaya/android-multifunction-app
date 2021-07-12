@@ -1,5 +1,6 @@
 package com.upm.pasproject;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,10 @@ import android.widget.SimpleAdapter;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import com.upm.pasproject.rest.CoinGeckoAPI;
-import com.upm.pasproject.rest.models.Crypto;
+import com.upm.pasproject.rest.models.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +52,7 @@ public class CryptoFragment extends Fragment {
 
         // Set button listeners
         Button loadFromApi = (Button)constraintLayout.findViewById(R.id.load_from_api);
-        Button loadFromDB = (Button)constraintLayout.findViewById(R.id.load_from_db);
+        Button loadFromDB = (Button)constraintLayout.findViewById(R.id.save_to_db);
 
         View.OnClickListener loadFromApiListener;
         View.OnClickListener loadFromDBListener;
@@ -67,8 +69,8 @@ public class CryptoFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                DBRequest();
-            }
+                ArrayList<Crypto> CryptoList = HashMapToCrypto(datos);
+                DBRequest(CryptoList); }
         });
 
         // Api Rest Request
@@ -82,7 +84,7 @@ public class CryptoFragment extends Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(x -> {
-                    for(Crypto coin:x) {
+                    for(Model coin:x) {
                         HashMap<String,String> hm = new HashMap<>();
                         hm.put("crypto", coin.getName()+" ("+coin.getSymbol().toUpperCase()+")");
                         hm.put("value", coin.getCurrentPrice()+"$");
@@ -93,8 +95,30 @@ public class CryptoFragment extends Fragment {
                 });
     }
 
-    void DBRequest(){
-        //TODO
+    void DBRequest(ArrayList<Crypto> data){
+        CryptoDatabase db = Room.databaseBuilder(getActivity().getApplicationContext(),
+                CryptoDatabase.class, "crypto-database").build();
+
+        AsyncTask.execute( () ->
+                db.cryptoDao().insert(data)
+        );
+    }
+
+    ArrayList<Crypto> HashMapToCrypto(List<HashMap<String,String>> ListaCrypto){
+
+        ArrayList<Crypto> CryptoArray = new ArrayList<>();
+
+        for(HashMap<String,String> crypto:ListaCrypto){
+            Crypto cryptoObjetct = new Crypto();
+
+            cryptoObjetct.crypto = crypto.get("crypto");
+            cryptoObjetct.icon_url = crypto.get("icon_url");
+            cryptoObjetct.value = crypto.get("value");
+
+            CryptoArray.add(cryptoObjetct);
+        }
+
+        return CryptoArray;
     }
 }
 
